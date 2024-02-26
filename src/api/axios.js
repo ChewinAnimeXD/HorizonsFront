@@ -6,3 +6,7 @@ const instance = axios.create({
 })
 
 export default instance
+
+//http://localhost:4000/api
+
+//https://backend-horizons.vercel.app/api
