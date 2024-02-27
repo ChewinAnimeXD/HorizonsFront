@@ -1,9 +1,28 @@
+import { createContext, useContext, useState } from "react";
+import {
+  createTaskRequest,
+  deleteTaskRequest,
+  getTasksRequest,
+  getTaskRequest,
+  updateTaskRequest,
+} from "../api/tasks";
+
+
+const TaskContext = createContext();
+
+export const useTasks = () => {
+  const context = useContext(TaskContext);
+  if (!context) throw new Error("useTasks must be used within a TaskProvider");
+  return context;
+};
+
 export function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([]);
 
-  const getTasks = async () => {
+  
+  const getTasks = async (studentId) => {
     try {
-      const res = await getTasksRequest();
+      const res = await getTasksRequest(studentId);
       setTasks(res.data);
     } catch (error) {
       console.error(error);
@@ -12,21 +31,23 @@ export function TaskProvider({ children }) {
 
   const deleteTask = async (id) => {
     try {
-      await deleteTaskRequest(id);
-      setTasks(tasks.filter((task) => task._id !== id));
+      const res = await deleteTaskRequest(id);
+      if (res.status === 204) setTasks(tasks.filter((task) => task._id !== id));
     } catch (error) {
       console.log(error);
+      console.log(res)
     }
   };
 
   const createTask = async (task) => {
     try {
       const res = await createTaskRequest(task);
-      setTasks([...tasks, res.data]);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const getTask = async (id) => {
     try {
@@ -40,8 +61,6 @@ export function TaskProvider({ children }) {
   const updateTask = async (id, task) => {
     try {
       await updateTaskRequest(id, task);
-      const updatedTasks = tasks.map((t) => (t._id === id ? task : t));
-      setTasks(updatedTasks);
     } catch (error) {
       console.error(error);
     }

@@ -58,14 +58,21 @@ export const AuthProvider = ({ children }) => {
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      console.log(res,"hello");
-      setIsAuthenticated(true);
-      setUser(res.data);
+      if (res.data.token) { // Verifica si el token está definido
+        Cookies.set("token", res.data.token, { expires: 1 }); // Configura la cookie correctamente
+        console.log("Valor de la cookie 'token':", Cookies.get("token"));
+        setIsAuthenticated(true);
+        setUser(res.data);
+      } else {
+        console.error("No se encontró el token en la respuesta");
+        setErrors(["No se encontró el token en la respuesta"]);
+      }
     } catch (error) {
       if (Array.isArray(error.response.data)) {
-        return setErrors(error.response.data);
+        setErrors(error.response.data);
+      } else {
+        setErrors([error.response.data.message]);
       }
-      setErrors([error.response.data.message]);
     }
   };
 
