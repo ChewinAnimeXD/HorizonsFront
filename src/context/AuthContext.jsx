@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }) => {
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
+      console.log(res)
       if (res.data.token) { // Verifica si el token está definido
         Cookies.set("token", res.data.token, { expires: 1 }); // Configura la cookie correctamente
         console.log("Valor de la cookie 'token':", Cookies.get("token"));
