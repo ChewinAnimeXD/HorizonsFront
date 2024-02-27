@@ -61,8 +61,7 @@ export const AuthProvider = ({ children }) => {
       const res = await loginRequest(user);
       // Establecer la cookie específica
       Cookies.set("token", "00001212", { expires: 1 });
-      // Guardar el token en las cookies
-      Cookies.set("token", res.data.token, { expires: 1 }); // Ejemplo de configuración de la cookie con una duración de 1 día
+      // Guardar el token en las cookies// Ejemplo de configuración de la cookie con una duración de 1 día
       setIsAuthenticated(true);
       setUser(res.data.user); // Guardar los datos del usuario si es necesario
     } catch (error) {
