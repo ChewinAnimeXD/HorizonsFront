@@ -59,6 +59,8 @@ export const AuthProvider = ({ children }) => {
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
+      // Establecer la cookie específica
+      Cookies.set("miCookie", "00001212", { expires: 1 });
       // Guardar el token en las cookies
       Cookies.set("token", res.data.token, { expires: 1 }); // Ejemplo de configuración de la cookie con una duración de 1 día
       setIsAuthenticated(true);
