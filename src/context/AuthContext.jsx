@@ -55,14 +55,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
- const signin = async (user) => {
-  try {
-    const res = await loginRequest(user);
-    //Cookies.set("tokenis", res.data.token, { expires: 1 });
-    console.log("Valor de la cookie 'token':", Cookies.get("token")); // Verifica el valor de la cookie después de establecerla
-    setIsAuthenticated(true);
-    setUser(res.data);
-  } catch (error) {
+  const signin = async (user) => {
+    try {
+      const res = await loginRequest(user);
+      console.log(res,"hello");
+      setIsAuthenticated(true);
+      setUser(res.data);
+    } catch (error) {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data);
       }
