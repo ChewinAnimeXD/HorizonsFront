@@ -55,15 +55,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
-  const signin = async (user) => {
+ const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      // Establecer la cookie específica
-      Cookies.set("token", "00001212", { expires: 1 });
-      // Guardar el token en las cookies// Ejemplo de configuración de la cookie con una duración de 1 día
+      console.log(res,"hello");
       setIsAuthenticated(true);
-      setUser(res.data.user); // Guardar los datos del usuario si es necesario
+      setUser(res.data);
     } catch (error) {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data);
@@ -71,7 +68,6 @@ export const AuthProvider = ({ children }) => {
       setErrors([error.response.data.message]);
     }
   };
-  
 
   const logout = () => {
     Cookies.remove("token");
