@@ -55,29 +55,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
-  const signin = async (user) => {
-    try {
-      const res = await loginRequest(user);
-      console.log(res.data)
-      if (res.data.token) { // Verifica si el token está definido
-        Cookies.set("token", res.data.token, { expires: 1 }); // Configura la cookie correctamente
-        console.log("Valor de la cookie 'token':", Cookies.get("token"));
-        setIsAuthenticated(true);
-        setUser(res.data);
-      } else {
-        console.error("No se encontró el token en la respuesta");
-        setErrors(["No se encontró el token en la respuesta"]);
-      }
-    } catch (error) {
+ const signin = async (user) => {
+  try {
+    const res = await loginRequest(user);
+    Cookies.set("token", res.data.token, { expires: 1 });
+    console.log("Valor de la cookie 'token':", Cookies.get("token")); // Verifica el valor de la cookie después de establecerla
+    setIsAuthenticated(true);
+    setUser(res.data);
+  } catch (error) {
       if (Array.isArray(error.response.data)) {
-        setErrors(error.response.data);
-      } else {
-        setErrors([error.response.data.message]);
+        return setErrors(error.response.data);
       }
+      setErrors([error.response.data.message]);
     }
   };
-  
 
   const logout = () => {
     Cookies.remove("token");
