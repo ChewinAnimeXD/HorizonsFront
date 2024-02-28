@@ -58,10 +58,10 @@ export const AuthProvider = ({ children }) => {
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      if (res.data.token) { // Verifica si el token está definido
+      if (res.data.token) {
         localStorage.setItem("tokecito2", res.data.token); // Guarda el token en localStorage
         
-        
+
         console.log("Valor del token en localStorage:", localStorage.getItem("tokecito2"));
 
 
