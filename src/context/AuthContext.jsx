@@ -58,11 +58,10 @@ export const AuthProvider = ({ children }) => {
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      if (res.data.token) {
-        localStorage.setItem("tokecito2", res.data.token); // Guarda el token en localStorage
-
-        console.log("Valor del token en localStorage:", localStorage.getItem("tokecito2"));
-
+      if (res.data.token) { // Verifica si el token está definido
+        Cookies.set("token", res.data.token, { expires: 1 }); // Configura la cookie correctamente
+        
+        console.log("Valor de la cookie 'token':", Cookies.get("token"));
         setIsAuthenticated(true);
         setUser(res.data);
       } else {
