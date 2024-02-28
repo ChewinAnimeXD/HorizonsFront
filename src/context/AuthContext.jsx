@@ -62,7 +62,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("tokecito2", res.data.token); // Guarda el token en localStorage
         
         console.log("Valor del token en localStorage:", localStorage.getItem("token"));
-        console.log("hola mundo local");
 
 
         setIsAuthenticated(true);
