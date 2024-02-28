@@ -55,28 +55,30 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signin = async (user) => {
-    try {
-      const res = await loginRequest(user);
-      if (res.data.token) { 
 
-        Cookies.set("tokenfront", res.data.token, { expires: 1 }); // Configura la cookie correctamente
-        console.log("Valor de la cookie 'token':", Cookies.get("tokenfront"));
-
-        setIsAuthenticated(true);
-        setUser(res.data);
-      } else {
-        console.error("No se encontró el token en la respuesta");
-        setErrors(["No se encontró el token en la respuesta"]);
+    const signin = async (user) => {
+      try {
+        const res = await loginRequest(user);
+        if (res.data && res.data.token) { 
+    
+          Cookies.set("token", res.data.token, { expires: 1 }); 
+          
+    
+          setIsAuthenticated(true);
+          setUser(res.data);
+        } else {
+          console.error("Validando Credenciales, Intenta de nuevo");
+          setErrors(["Validando Credenciales, Intenta de nuevo"]);
+        }
+      } catch (error) {
+        if (Array.isArray(error.response.data)) {
+          setErrors(error.response.data);
+        } else {
+          setErrors([error.response.data.message]);
+        }
       }
-    } catch (error) {
-      if (Array.isArray(error.response.data)) {
-        setErrors(error.response.data);
-      } else {
-        setErrors([error.response.data.message]);
-      }
-    }
-  };
+    };
+    
 
   const logout = () => {
     Cookies.remove("token");
