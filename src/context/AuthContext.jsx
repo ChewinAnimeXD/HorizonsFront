@@ -60,10 +60,8 @@ export const AuthProvider = ({ children }) => {
       const res = await loginRequest(user);
       if (res.data.token) {
         localStorage.setItem("tokecito2", res.data.token); // Guarda el token en localStorage
-        
 
         console.log("Valor del token en localStorage:", localStorage.getItem("tokecito2"));
-
 
         setIsAuthenticated(true);
         setUser(res.data);
