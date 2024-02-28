@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }) => {
       if (res.data.token) { // Verifica si el token está definido
         localStorage.setItem("tokecito2", res.data.token); // Guarda el token en localStorage
         
+        
         console.log("Valor del token en localStorage:", localStorage.getItem("tokecito2"));
 
 
