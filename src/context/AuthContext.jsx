@@ -66,9 +66,9 @@ export const AuthProvider = ({ children }) => {
           //localStorage.setItem("token", token)
           //axios.defaults.headers.common["authorization"] = localStorage.getItem("token");
 
-          axios.get('https://backend-horizons.vercel.app/api', {
+         /* axios.get('https://backend-horizons.vercel.app/api', {
     withCredentials: true
-});
+});*/
 
           console.log("El token del front",token)
           setIsAuthenticated(true);
