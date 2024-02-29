@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   
   const signin = async (user) => {
     try {
-      const res = await axios.post('http://localhost:4000/api/login', user, { withCredentials: true });
+      const res = await axios.post('https://backend-horizons.vercel.app/api/login', user, { withCredentials: true });
       if (res.data && res.data.token) {
         Cookies.set("token", res.data.token, { expires: 1 });
         setIsAuthenticated(true);
