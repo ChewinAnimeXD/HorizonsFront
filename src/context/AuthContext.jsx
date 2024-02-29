@@ -57,27 +57,36 @@ export const AuthProvider = ({ children }) => {
   };
 
 
+    const signin = async (user) => {
+      try {
+        const res = await loginRequest(user);
+        if (res.data && res.data.token) { 
+          //Cookies.set("token", res.data.token, { expires: 1 }); 
+          const token = res.data.token;
+          //localStorage.setItem("token", token)
+          //axios.defaults.headers.common["authorization"] = localStorage.getItem("token");
 
-  
-  const signin = async (user) => {
-    try {
-      const res = await axios.post('https://backend-horizons.vercel.app/api/login', user, { withCredentials: true });
-      if (res.data && res.data.token) {
-        Cookies.set("token", res.data.token, { expires: 1 });
-        setIsAuthenticated(true);
-        setUser(res.data);
-      } else {
-        console.error("Validando Credenciales, Intenta de nuevo");
-        setErrors(["Validando Credenciales, Intenta de nuevo"]);
+          axios.post('https://backend-horizons.vercel.app/api', {
+            headers: {
+              Authorization: 'Bearer ' + token // Suponiendo que ya tienes el token
+            }
+          });
+
+          console.log("El token del front",token)
+          setIsAuthenticated(true);
+          setUser(res.data);
+        } else {
+          console.error("Validando Credenciales, Intenta de nuevo");
+          setErrors(["Validando Credenciales, Intenta de nuevo"]);
+        }
+      } catch (error) {
+        if (Array.isArray(error.response.data)) {
+          setErrors(error.response.data);
+        } else {
+          setErrors([error.response.data.message]);
+        }
       }
-    } catch (error) {
-      if (Array.isArray(error.response.data)) {
-        setErrors(error.response.data);
-      } else {
-        setErrors([error.response.data.message]);
-      }
-    }
-  };
+    };
     
 
   const logout = () => {
