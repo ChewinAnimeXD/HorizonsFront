@@ -61,7 +61,6 @@ export const AuthProvider = ({ children }) => {
         const res = await loginRequest(user);
         if (res.data && res.data.token) { 
           //Cookies.set("token", res.data.token, { expires: 1 }); 
-          
           setIsAuthenticated(true);
           setUser(res.data);
         } else {
@@ -93,6 +92,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    fetch('https://backend-horizons.vercel.app/', {
+      method: 'GET',
+      credentials: 'include'
+    })
     if (errors.length > 0) {
       const timer = setTimeout(() => {
         setErrors([]);
