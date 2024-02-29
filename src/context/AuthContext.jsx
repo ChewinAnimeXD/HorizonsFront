@@ -92,10 +92,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetch('https://backend-horizons.vercel.app/', {
-      method: 'GET',
-      credentials: 'include'
-    })
     if (errors.length > 0) {
       const timer = setTimeout(() => {
         setErrors([]);
