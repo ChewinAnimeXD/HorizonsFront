@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { registerRequest, loginRequest, verityTokenRequest, deleteUserRequest, getUsersRequest, updateUserRequest, getUserRequest } from "../api/auth";
 import Cookies from "js-cookie";
+import axios from 'axios'; 
 
 export const AuthContext = createContext();
 
@@ -56,26 +57,27 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-    const signin = async (user) => {
-      try {
-        const res = await loginRequest(user);
-        if (res.data && res.data.token) { 
-          Cookies.set("token", res.data.token, { expires: 1 }); 
-          
-          setIsAuthenticated(true);
-          setUser(res.data);
-        } else {
-          console.error("Validando Credenciales, Intenta de nuevo");
-          setErrors(["Validando Credenciales, Intenta de nuevo"]);
-        }
-      } catch (error) {
-        if (Array.isArray(error.response.data)) {
-          setErrors(error.response.data);
-        } else {
-          setErrors([error.response.data.message]);
-        }
+
+  
+  const signin = async (user) => {
+    try {
+      const res = await axios.post('http://localhost:4000/api/login', user, { withCredentials: true });
+      if (res.data && res.data.token) {
+        Cookies.set("token", res.data.token, { expires: 1 });
+        setIsAuthenticated(true);
+        setUser(res.data);
+      } else {
+        console.error("Validando Credenciales, Intenta de nuevo");
+        setErrors(["Validando Credenciales, Intenta de nuevo"]);
       }
-    };
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        setErrors(error.response.data);
+      } else {
+        setErrors([error.response.data.message]);
+      }
+    }
+  };
     
 
   const logout = () => {
