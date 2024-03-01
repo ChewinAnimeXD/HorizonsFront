@@ -47,7 +47,7 @@ function RegisterPage() {
       signup(dataValid);
     }
   
-    navigate("/homePage");
+    navigate("/userPage");
     //window.location.reload(); // Recargar la página
   });
   
