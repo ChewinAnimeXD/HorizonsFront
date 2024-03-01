@@ -47,8 +47,8 @@ function RegisterPage() {
       signup(dataValid);
     }
   
-    navigate("/userPage");
-    window.location.reload(); // Recargar la página
+    navigate("/homePage");
+    //window.location.reload(); // Recargar la página
   });
   
   
